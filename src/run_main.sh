@@ -3,7 +3,7 @@
 #SBATCH --output=clustering_experiment.out
 #SBATCH --error=clustering_experiment.err
 #SBATCH --time=01:00:00  # Set the maximum runtime
-#SBATCH --partition=compute  # Specify the partition/queue
+#SBATCH --partition=general  # Specify the partition/queue
 #SBATCH --nodes=1  # Number of nodes
 #SBATCH --ntasks=1  # Number of tasks
 #SBATCH --cpus-per-task=4  # Number of CPU cores per task
