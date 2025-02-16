@@ -4,7 +4,6 @@
 #SBATCH --ntasks=1  # Number of tasks
 #SBATCH --cpus-per-task=4  # Number of CPU cores per task
 #SBATCH --mem=16G
-#SBATCH --mem-per-cpu=16G
 #SBATCH --output=clustering_experiment.out
 #SBATCH --error=clustering_experiment.err
 #SBATCH --time=01:00:00  # Set the maximum runtime
