@@ -47,7 +47,8 @@ colors = plt.cm.get_cmap('tab10', len(unique_labels))
 plt.figure(figsize=(10, 8))
 for label in unique_labels:
     label_mask = (cluster_labels == label)
-    plt.scatter(x[label_mask], y[label_mask], color=colors(label), label=f'Cluster {label}' if label != -1 else 'Noise')
+    plt.scatter(x[label_mask], y[label_mask], color=colors[label], label=f'Cluster {label}' if label != -1 else 'Noise')
+
 
 plt.title('DBSCAN Clustering of Newsgroups Data')
 plt.xlabel('First Principal Component')
