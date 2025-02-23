@@ -1,6 +1,7 @@
 from sklearn.datasets import fetch_20newsgroups
 from sklearn.manifold import TSNE
 from sklearn.cluster import DBSCAN
+from sentence_transformers import SentenceTransformer
 from llm import extract_topics
 import numpy as np
 import matplotlib.pyplot as plt
@@ -9,19 +10,22 @@ import matplotlib.pyplot as plt
 categories = ['sci.space', 'rec.sport.baseball', 'comp.graphics', 'talk.politics.mideast']
 newsgroups = fetch_20newsgroups(subset='train', categories=categories, remove=('headers', 'footers', 'quotes'))
 
-complete_topic_numbers = []
+topic_list = []
 
 # Extract topics from each newsgroup
 for newsgroup in newsgroups.data:
     topic_numbers = extract_topics(newsgroup)
-    complete_topic_numbers.extend(topic_numbers)
+    topic_list.extend(topic_numbers)
+
+model = SentenceTransformer('all-MiniLM-L6-v2')
+topic_embeddings = model.encode(topic_list)
 
 # Convert to numpy array
-complete_topic_numbers = np.array(complete_topic_numbers)
+topic_embeddings_array = np.array(topic_embeddings)
 
 # Dimensionality reduction using t-SNE
 tsne = TSNE(n_components=2, random_state=42, perplexity=30, n_iter=1000)
-X_reduced = tsne.fit_transform(complete_topic_numbers.reshape(-1, 1))
+X_reduced = tsne.fit_transform(topic_embeddings_array.reshape(-1, 1))
 
 x = X_reduced[:, 0]  # First principal component
 y = X_reduced[:, 1]  # Second principal component
@@ -54,5 +58,5 @@ plt.title('DBSCAN Clustering of Newsgroups Data')
 plt.xlabel('First Principal Component')
 plt.ylabel('Second Principal Component')
 plt.legend()
-plt.show()
+plt.savefig('dbscan_clusters.png')
 

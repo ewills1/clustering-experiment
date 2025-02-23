@@ -10,9 +10,9 @@
 # Load necessary modules
 module load Anaconda3/2024.02-1  # Adjust the Python version as needed
 module load cuda/11.2  # Adjust the CUDA version as needed
-module load dissertation-experiment1
+module load clustering-experiment
 
 source activate mynumpy # Activate the virtual environment
 
 # Run the Python script
-srun python ~/dissertation-experiment1/src/main.py
+srun python ~/clustering-experiment/src/main.py
