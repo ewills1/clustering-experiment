@@ -2,8 +2,8 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 import torch
 
 #Load LLama model
-tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-3.1-8B-Instruct")
-model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.1-8B-Instruct")
+tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-3.2-3B-Instruct")
+model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.2-3B-Instruct")
 
 # Define the inference pipeline
 pipe = pipeline("text-generation", model=model, tokenizer=tokenizer)  
