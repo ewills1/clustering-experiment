@@ -10,12 +10,14 @@ import matplotlib.pyplot as plt
 categories = ['sci.space', 'rec.sport.baseball', 'comp.graphics', 'talk.politics.mideast']
 newsgroups = fetch_20newsgroups(subset='train', categories=categories, remove=('headers', 'footers', 'quotes'))
 
+batch_size = 20
 topic_list = []
 
 # Extract topics from each newsgroup
-for newsgroup in newsgroups.data:
-    topic_numbers = extract_topics(newsgroup)
-    topic_list.extend(topic_numbers)
+for i in range(0, len(newsgroups.data), batch_size):
+    batch = newsgroups.data[i:i + batch_size]
+    topics_batch = extract_topics(batch)
+    topic_list.extend(topics_batch)
 
 model = SentenceTransformer('all-MiniLM-L6-v2')
 topic_embeddings = model.encode(topic_list)
