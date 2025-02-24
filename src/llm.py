@@ -12,12 +12,28 @@ model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.2-3B-Instruct")
 pipe = pipeline("text-generation", model=model, tokenizer=tokenizer)  
 
 # Function to query the model
-def extract_topics(prompt):
-    response = pipe(f"Read the text below and list up to 3 topics. Each topic should contain fewer than 3 words. Ensure you return three topics, separated by commas, and nothing more.{prompt}\n", 
-                    max_length=50, do_sample=False)
-    topic_numbers = int(response[0]["generated_text"].strip().split()[-3])  # Extract last numbers
-    return topic_numbers
+def extract_topics(prompts):
+    formatted_prompts = [
+        (
+            "Analyze the text below and list up to 3 key topics that summarise the text. "
+            "Each topic should be fewer than 3 words. "
+            "Return only the topics, separated by commas. For example, you should return only '{Topic1}, {Topic2}, {Topic3}' \n\n"
+            f"Text: {prompt}\n"
+            "Topics:"
+        )
+        for prompt in prompts
+    ]
 
+    responses = pipe(formatted_prompts, do_sample=False)  # Batch process
+
+    topic_list = []
+    for response in responses:
+        generated_text = response[0]["generated_text"]
+        topics_start = generated_text.find("Topics:") + len("Topics:")
+        topics = generated_text[topics_start:].strip()
+        topic_list.append(topics)
+
+    return topic_list
 # Example query
 if __name__ == "__main__":
     user_prompt = input("Enter your prompt: ")
