@@ -6,7 +6,7 @@ huggingface_hub.login(token="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")
 
 #Load LLama model
 tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-3.2-3B-Instruct")
-model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.2-3B-Instruct")
+model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.2-3B-Instruct", load_in_8bit=True, device_map="auto")
 
 # Define the inference pipeline
 pipe = pipeline("text-generation", model=model, tokenizer=tokenizer)  
